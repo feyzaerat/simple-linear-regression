@@ -1,0 +1,8 @@
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\config\SwaggerConfig.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\controllers\LinearRegressionController.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\LinearRegressionApplication.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\models\LinearRegressionModel.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\services\abstracts\LinearRegressionService.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\services\concretes\LinearRegressionManager.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\services\dtos\LinearRegressionRequest.java
+F:\JavaProjects\linearRegression\src\main\java\com\regression\linearRegression\services\dtos\LinearRegressionResult.java

@@ -1,0 +1,8 @@
+com\regression\linearRegression\controllers\LinearRegressionController.class
+com\regression\linearRegression\models\LinearRegressionModel.class
+com\regression\linearRegression\services\concretes\LinearRegressionManager.class
+com\regression\linearRegression\config\SwaggerConfig.class
+com\regression\linearRegression\services\dtos\LinearRegressionRequest.class
+com\regression\linearRegression\LinearRegressionApplication.class
+com\regression\linearRegression\services\dtos\LinearRegressionResult.class
+com\regression\linearRegression\services\abstracts\LinearRegressionService.class
