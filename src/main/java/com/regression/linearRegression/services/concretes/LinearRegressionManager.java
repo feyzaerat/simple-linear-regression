@@ -1,17 +1,13 @@
 package com.regression.linearRegression.services.concretes;
 
+import com.regression.linearRegression.core.utilities.ExcelReader;
 import com.regression.linearRegression.services.abstracts.LinearRegressionService;
 import com.regression.linearRegression.services.dtos.LinearRegressionResult;
 import lombok.AllArgsConstructor;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 @Service
 @AllArgsConstructor
@@ -70,35 +66,19 @@ public class LinearRegressionManager implements LinearRegressionService {
         return new LinearRegressionResult(m, b, rSquared, standardError, sumOfx, sumOfy, sumOfxy, sumOfSquaredx, equation, economicInterpretation);
     }
 
+    //calculate via json
     @Override
     public LinearRegressionResult calculate(double[] xValues, double[] yValues, String xVariableName, String yVariableName) {
         return calculateRegression(xValues, yValues, xVariableName, yVariableName);
     }
 
+    //calculate via xslx upload
     @Override
     public LinearRegressionResult calculateFromExcel(MultipartFile file, String xVariableName, String yVariableName) {
-        try (InputStream inputStream = file.getInputStream()) {
-            Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheetAt(0);
-            int rowCount = sheet.getPhysicalNumberOfRows();
-
-            if (rowCount <= 1) {
-                throw new IllegalArgumentException("Excel dosyası yeterli veri içermiyor.");
-            }
-
-            double[] xValues = new double[rowCount - 1];
-            double[] yValues = new double[rowCount - 1];
-
-            for (int i = 1; i < rowCount; i++) { // Başlık satırını atla
-                Row row = sheet.getRow(i);
-                if (row == null || row.getCell(0) == null || row.getCell(1) == null) {
-                    throw new IllegalArgumentException("Excel dosyasında eksik veri bulundu.");
-                }
-
-                xValues[i - 1] = row.getCell(0).getNumericCellValue();
-                yValues[i - 1] = row.getCell(1).getNumericCellValue();
-            }
-
+        try {
+            double[][] values = ExcelReader.readExcelFile(file);
+            double[] xValues = values[0];
+            double[] yValues = values[1];
             return calculateRegression(xValues, yValues, xVariableName, yVariableName);
         } catch (IOException e) {
             throw new RuntimeException("Excel dosyası işlenirken bir hata oluştu.", e);
@@ -106,5 +86,4 @@ public class LinearRegressionManager implements LinearRegressionService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 }
