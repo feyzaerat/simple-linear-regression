@@ -1,5 +1,6 @@
 package com.regression.linearRegression.core.utilities;
 
+import com.regression.linearRegression.core.utilities.exceptions.ErrorMessage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -18,7 +19,7 @@ public class ExcelReader {
             int rowCount = sheet.getPhysicalNumberOfRows();
 
             if (rowCount <= 1) {
-                throw new IllegalArgumentException("Excel dosyası yeterli veri içermiyor.");
+                throw new IllegalArgumentException(ErrorMessage.INSUFFICIENT_DATA.getMessage());
             }
 
             double[] xValues = new double[rowCount - 1];
@@ -27,7 +28,7 @@ public class ExcelReader {
             for (int i = 1; i < rowCount; i++) {
                 Row row = sheet.getRow(i);
                 if (row == null || row.getCell(0) == null || row.getCell(1) == null) {
-                    throw new IllegalArgumentException("Excel dosyasında eksik veri bulundu.");
+                    throw new IllegalArgumentException(ErrorMessage.MISSING_DATA.getMessage());
                 }
 
                 xValues[i - 1] = row.getCell(0).getNumericCellValue();
@@ -36,7 +37,7 @@ public class ExcelReader {
 
             return new double[][]{xValues, yValues};
         } catch (IOException e) {
-            throw new IOException("Excel dosyası işlenirken bir hata oluştu.", e);
+            throw new IOException(ErrorMessage.PROCESSING_ERROR.getMessage(), e);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
